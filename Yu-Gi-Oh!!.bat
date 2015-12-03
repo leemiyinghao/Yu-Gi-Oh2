@@ -26,9 +26,9 @@ if "%~x1"==".mkv" (
 	for /f "usebackq delims=" %%i in  (`MediaInfo_CLI_0.7.79_Windows_x64\MediaInfo.exe "--Output=Video;%%BitDepth%%" %1`) do (
 		if %%i gtr 8 (
 			echo 10bit! Re-encoding...
-			"libav-11.3-win64\win64\usr\bin\avconv.exe" -i %1 -c:v libx264 -crf 18 -c:a libmp3lame -q:a 0 "%~dp1mp4\%~n1.mp4" -hwaccel qsv
+			"libav-11.3-win64\win64\usr\bin\avconv.exe" -i %1 -c:v libx264 -crf 18 -c:a aac -ab 320k -strict experimental "%~dp1mp4\%~n1.mp4" -hwaccel qsv 
 		)
-		if %%i leq 8 ("libav-11.3-win64\win64\usr\bin\avconv.exe" -i %1 -c:v copy -c:a libmp3lame -q:a 0 "%~dp1mp4\%~n1.mp4")
+		if %%i leq 8 ("libav-11.3-win64\win64\usr\bin\avconv.exe" -i %1 -c:v copy -strict experimental -c:a aac -ab 320k -strict experimental "%~dp1mp4\%~n1.mp4")
 	)
 )
 shift
